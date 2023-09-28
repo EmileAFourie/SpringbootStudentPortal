@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <!--    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css">-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,200&display=swap" rel="stylesheet">
+
+
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .StudentPortal {
+            margin-top:30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            font-size: 60px;
+
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="container">
+
+<!--        <div class="row">-->
+
+<!--            <div class="col-md-3">-->
+<!--                &lt;!&ndash; Logo placement &ndash;&gt;-->
+<!--                <img src="/BC1.png" alt="Logo" class="img-fluid">-->
+<!--            </div>-->
+<!--            <div class="StudentPortal">-->
+<!--                &lt;!&ndash; Header &ndash;&gt;-->
+<!--                <h1 style="margin-top: 5px" class="mt-4">Admin Portal</h1>-->
+
+<!--            </div>-->
+<!--            <div>-->
+<!--                <br>-->
+<!--                <br>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <form action="/" method="post">-->
+<!--                    <button type="submit" class="btn btn-danger">Logout</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Logo placement -->
+                <img src="/BC1.png" alt="Logo" class="img-fluid">
+            </div>
+            <div class="col-md-6 StudentPortal">
+                <!-- Header -->
+                <h1 style="margin-top: 5px" class="mt-4">Admin Portal</h1>
+            </div>
+            <div class="col-md-3 text-right"> <!-- Add text-right class here -->
+                <!-- Move the logout button to the right -->
+                <form action="/" method="post">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <br>
+            <br>
+            <br>
+
+        </div>
+
+
+
+        <h2>Student Information</h2>
+        <div>
+            <label for="searchInput">Search by Name:</label>
+            <input type="text" id="searchInput" placeholder="Enter student name...">
+            <button id="searchButton" class="btn btn-sm btn-primary">Search</button>
+        </div>
+
+        <div id="filteredResults">
+            <!-- Filtered results will be displayed here -->
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody id="studentTable">
+            <!-- Thymeleaf loop to populate student rows -->
+            <tr th:each="student : ${students}" th:data-student-id="${student.studentId}" data-original="${student}">
+                <td th:text="${student.studentId}"></td>
+                <td class="student-name" th:text="${student.studentName}"></td>
+                <td class="student-email" th:text="${student.studentEmail}"></td>
+                <td class="student-address" th:text="${student.studentAddress}"></td>
+                <td>
+                    <a class="btn btn-sm btn-info edit-btn"
+                       th:data-student-id="${student.studentId}"
+                       th:data-student-name="${student.studentName}"
+                       th:data-student-email="${student.studentEmail}"
+                       th:data-student-address="${student.studentAddress}"
+                       href="#">Edit</a>
+                    <a class="btn btn-sm btn-danger delete-btn"
+                       th:data-student-id="${student.studentId}"
+                       href="#">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Edit Student Details</h2>
+        <form id="edit-form" method="post">
+            <input type="hidden" name="studentId" />
+            <div class="form-group">
+                <label for="editName">Name:</label>
+                <input type="text" class="form-control" id="editName" name="studentName" required>
+            </div>
+            <div class="form-group">
+                <label for="editEmail">Email:</label>
+                <input type="email" class="form-control" id="editEmail" name="studentEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="editAddress">Address:</label>
+                <input type="text" class="form-control" id="editAddress" name="studentAddress">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-danger mr-2" id="update-btn">Update Student</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid bg-dark text-white text-center py-3">
+        PRG3781 Project.
+    </div>
+</footer>
+
+</body>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const updateButton = document.getElementById('update-btn');
+        const editForm = document.getElementById('edit-form');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = button.getAttribute('data-student-id');
+                const studentName = button.getAttribute('data-student-name');
+                const studentEmail = button.getAttribute('data-student-email');
+                const studentAddress = button.getAttribute('data-student-address');
+
+                editForm.studentId.value = studentId;
+                editForm.studentName.value = studentName;
+                editForm.studentEmail.value = studentEmail;
+                editForm.studentAddress.value = studentAddress;
+            });
+        });
+
+        updateButton.addEventListener('click', function() {
+            console.log("update button clicked...")
+
+            const studentId = editForm.studentId.value;
+            const studentName = editForm.studentName.value;
+            const studentEmail = editForm.studentEmail.value;
+            const studentAddress = editForm.studentAddress.value;
+
+            // Send an AJAX request to update the student's information
+            fetch('/admin/update/' + studentId, {
+                method: 'POST', // Use POST method for updating
+                headers: {
+                    'Content-Type': 'application/json', // Use JSON content type
+                },
+                body: JSON.stringify({
+                    studentName: studentName,
+                    studentEmail: studentEmail,
+                    studentAddress: studentAddress,
+                }), // Convert data to JSON format
+            }).then(response => {
+                if (response.ok) {
+                    // Update the displayed student information
+                    const studentRow = document.querySelector(`[data-student-id="${studentId}"]`);
+                    studentRow.querySelector('.student-name').textContent = studentName;
+                    studentRow.querySelector('.student-email').textContent = studentEmail;
+                    studentRow.querySelector('.student-address').textContent = studentAddress;
+
+                    // Clear the form fields
+                    editForm.reset();
+                }
+            });
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const filteredResults = document.getElementById('filteredResults');
+        const studentTable = document.getElementById('studentTable');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        // Store the original student rows when the page loads
+        const originalStudentRows = [...document.querySelectorAll('[data-student-id]')];
+
+
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            console.log("search button clicked...")
+
+            if (searchTerm !== "") { // Validate input
+                console.log('Search button clicked. Search term:', searchTerm);
+
+                // Clear filtered results and reset the table
+                studentTable.innerHTML = '';
+                filteredResults.innerHTML = '';
+
+                originalStudentRows.forEach(studentRow => {
+                    const studentNameElement = studentRow.querySelector('.student-name');
+                    if (studentNameElement) {
+                        const studentName = studentNameElement.textContent.toLowerCase();
+
+                        if (studentName.includes(searchTerm)) {
+                            console.log('Match found for:', studentName);
+                            // Prepend matched student row to the top of the table
+                            studentTable.insertBefore(studentRow.cloneNode(true), studentTable.firstChild);
+                        } else {
+                            console.log('No match for:', studentName);
+                        }
+                    }
+                });
+            } else {
+                console.log('Search term is empty or null.');
+            }
+
+            // Clear filtered results and reset the table
+            studentTable.innerHTML = '';
+            filteredResults.innerHTML = '';
+
+            originalStudentRows.forEach(studentRow => {
+                const studentNameElement = studentRow.querySelector('.student-name');
+                if (studentNameElement) {
+                    const studentName = studentNameElement.textContent.toLowerCase();
+
+                    if (studentName.includes(searchTerm)) {
+                        console.log('Match found for:', studentName);
+                        // Prepend matched student row to the top of the table
+                        studentTable.appendChild(studentRow.cloneNode(true));
+
+                    }
+                    else if(searchTerm === "") {
+                        location.reload();
+                    }
+                    else {
+                        console.log('No match for:', studentName);
+                    }
+                }
+            });
+
+            document.querySelector('#studentTable').addEventListener('click', function(event) {
+                if (event.target.classList.contains('edit-btn')) {
+                    const studentId = event.target.getAttribute('data-student-id');
+                    const studentName = event.target.getAttribute('data-student-name');
+                    const studentEmail = event.target.getAttribute('data-student-email');
+                    const studentAddress = event.target.getAttribute('data-student-address');
+
+                    editForm.studentId.value = studentId;
+                    editForm.studentName.value = studentName;
+                    editForm.studentEmail.value = studentEmail;
+                    editForm.studentAddress.value = studentAddress;
+                }
+            });
+
+            document.querySelector('#studentTable').addEventListener('click', function(event) {
+                console.log("cloned delete button clicked");
+                if (event.target.classList.contains('delete-btn')) {
+                    const studentId = event.target.getAttribute('data-student-id');
+                    console.log('Delete button clicked for student with ID:', studentId);
+
+                    // Send an AJAX request to delete the student's record
+                    fetch(`/admin/delete/${studentId}`, {
+                        method: 'DELETE',
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Remove the row from the table
+                                const studentRow = document.querySelector(`[data-student-id="${studentId}"]`);
+                                studentRow.remove();
+                            } else {
+                                console.log('Delete operation failed.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error during delete:', error);
+                        });
+                }
+            });
+        });
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                console.log("delete button clicked...")
+
+                const studentId = button.getAttribute('data-student-id');
+                console.log('Delete button clicked for student with ID:', studentId);
+
+                // Send an AJAX request to delete the student's record
+                fetch(`/admin/delete/${studentId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Remove the row from the table
+                            const studentRow = document.querySelector(`[data-student-id="${studentId}"]`);
+                            studentRow.remove();
+                        } else {
+                            console.log('Delete operation failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during delete:', error);
+                    });
+            });
+        });
+
+
+        filteredResults.querySelectorAll('.delete-btn').forEach(button => {
+
+            console.log('Checking button:', button); // Add this line
+            button.addEventListener('click', function() {
+                const studentId = button.getAttribute('data-student-id');
+                console.log('Delete button clicked for student with ID:', studentId);
+                console.log('Delete button clicked for student with ID:', studentId);
+
+                // Send an AJAX request to delete the student's record
+                fetch(`/admin/delete/${studentId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Remove the row from the table
+                            const studentRow = document.querySelector(`[data-student-id="${studentId}"]`);
+                            studentRow.remove();
+                        } else {
+                            console.log('Delete operation failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during delete:', error);
+                    });
+            });
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\com",
+    "\\src\\main\\java\\com\\PRG371",
+    "\\src\\main\\java\\com\\PRG371\\Java_SpringBoot_WebApp",
+    "\\src\\main\\java\\com\\PRG371\\Java_SpringBoot_WebApp\\admin",
+    "\\src\\main\\java\\com\\PRG371\\Java_SpringBoot_WebApp\\login",
+    "\\src\\main\\java\\com\\PRG371\\Java_SpringBoot_WebApp\\student"
+  ],
+  "SelectedNode": "\\src\\main\\java\\com\\PRG371\\Java_SpringBoot_WebApp\\login\\LoginController.java",
+  "PreviewInSolutionExplorer": false
+}

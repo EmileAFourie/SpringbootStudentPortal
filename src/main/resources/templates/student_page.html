@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Belgium Campus ITversity</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/stylesheet.css}" />
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome to Belgium Campus ITversity</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" />
+        <link rel="stylesheet" th:href="@{/css/stylesheet.css}" />
+    </head>
+    <body>
+        <div class="background"></div>
+        <div class="content-container">
+            <div class="container">
+                <header>
+                    <div class="logo-container">
+                        <div class="logo">
+                            <img th:src="@{/BC1.png}" alt="ITversity Logo">
+                        </div>
+                        <div class="welcome-text">
+                            Welcome to Belgium Campus ITversity!
+                        </div>
+                        <div class="logout-container">
+                            <button class="logout-button" onclick="logout()">Log out</button>
+                        </div>
+                    </div>
+                </header>
+                <div class="image-container" >
+                    <img th:src="@{/bg.jpeg}" alt="Background Image">
+                </div>
+
+                <div class="logos-container">
+                    <div class="logo">
+                        <img th:src="@{/laptop.png}" alt="Laptop Logo">
+                        <p>Empowering Minds with Practical Skills: </p>
+                          <p>Discover a world of hands-on learning as we delve into cutting-edge technologies through immersive experiences on your personal laptop. Our IT education programs are designed to equip you with the skills that matter in today's digital landscape.</p>
+                    </div>
+                    <div class="logo">
+                        <img th:src="@{/cloud.png}" alt="Cloud Logo">
+                        <p>Unleash the Potential of Cloud Innovations:</p>
+                        <p>Journey into the boundless skies of cloud computing, where you'll explore the transformative power of scalable resources, data storage, and seamless collaboration. Dive deep into the cloud ecosystem and harness its capabilities to shape the future of IT solutions.</p>
+                    </div>
+                    <div class="logo">
+                        <img th:src="@{/circuit.jpg}" alt="Circuit Logo">
+                        <p>Wiring Intelligence, Crafting Tomorrow:</p>
+                        <p>Delve into the intricate circuits that power the modern world. From electronics to automation, our IT education unveils the secrets behind smart systems and IoT devices. Join us in crafting intelligent solutions that bridge the gap between imagination and reality.</p>
+                        <br>
+                        <br>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+          function logout() {
+              // Your logout logic here
+              alert("User logged out!");
+              window.location.href = '/';
+          }
+      </script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    background-color: lightgray;
+  }
+  
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+    
+    background-color: lightgray;
+    z-index: -1;
+  }
+
+  header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: lightgray;
+  }
+
+  .content-container {
+    overflow: auto;
+    
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .logo-container {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+   }
+
+   .logout-container {
+       float: right;
+       margin-top: 10px;
+       padding-right: 15px;
+   }
+  
+  .logo {
+    width: 200px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    margin-right: 20px; /* Add margin for spacing */
+  }
+  
+  .logo img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .welcome-text {
+    font-size: 28px;
+    margin-top: 20px;
+    animation: moveText 3s infinite alternate;
+  }
+  
+  .logout-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .logout-button:hover {
+    background-color: #0056b3;
+  }
+  
+  @keyframes moveText {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-10px);
+    }
+  }
+
+.image-container {
+    display: flex;
+    margin-top: 130px;
+    justify-content: left;
+    background-color: lightgray;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .image-container img {
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .logos-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: lightgray;
+  }
+  
+  .logos-container .logo {
+    text-align: center;
+  }
+  
+  .logos-container .logo img {
+    max-width: 100px; /* Adjust as needed */
+    max-height: 100px; /* Adjust as needed */
+  }
+  
+  .logos-container .logo p {
+    margin-top: 10px;
+  }
+  
+</style>
+        <script>
+
+            function logout() {
+                     // Your logout logic here
+                     alert("User logged out!");
+                     window.location.href = '/';
+                 }
+
+        </script>
+</body>
+</html>

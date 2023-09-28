@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmln="https://www.thymeleaf.org/">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <title>Register!</title>
+</head>
+<style>
+
+    .logout-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+</style>
+
+<script>
+
+    function logout() {
+        // Your logout logic here
+        alert("User logged out!");
+        window.location.href = '/';
+    }
+
+
+    function showPopup(message) {
+        const popup = document.getElementById("popup");
+        const popupMessage = document.getElementById("popup-message");
+
+        popupMessage.textContent = message;
+        popup.style.display = "block";
+
+        setTimeout(function() {
+            popup.style.display = "none";
+        }, 3000); // Hide the popup after 3 seconds
+    }
+
+    function register() {
+        // Perform your validation logic here
+        const isValid = true; // Replace this with your actual validation logic
+
+        if (isValid) {
+            // Simulate a successful registration
+            alert("Registration successful!");
+            window.location.href = '/';
+        } else {
+            showPopup("Invalid details or email already taken.");
+        }
+    }
+
+</script>
+<body>
+<div class="container" style="padding-left:300px">
+    <button class="logout-button" onclick="logout()" style="float: right; margin-top: 10px;">Logout</button>
+    <h1 style="color:black">Student Registration Form</h1>
+    <form class="col-5" th:action="@{registration/registerStudent}" th:object="${student}" method = "post" >
+        <div class="mb-3">
+            <label for="StudentName" class="form-label"><b>Name:</b></label>
+            <input type="text" th:field="*{studentName}" class="form-control" id="StudentName" placeholder="Student Name">
+        </div>
+        <div class="mb-3">
+            <label for="StudentAddress" class="form-label"><b>Address:</b></label>
+            <input type="text" th:field="*{studentAddress}" class="form-control" id="StudentAddress" placeholder="Address">
+        </div>
+        <div class="mb-3">
+            <label for="StudentEmail" class="form-label"><b>Email:</b></label>
+            <input type="email" th:field="*{studentEmail}" class="form-control" id="StudentEmail" placeholder="Email">
+        </div>
+        <div class="mb-3">
+            <label for="StudentPassword" class="form-label"><b>Password:</b></label>
+            <input type="password" th:field="*{studentPassword}" class="form-control" id="StudentPassword" placeholder="Password">
+        </div>
+        <div class="mb-3">
+        <div class="form-group">
+            <label><b>Select Course:</b></label><br>
+            <input type="radio"  id="BIT" th:field="*{studentCourse}" value="Bachelor of IT">
+            <label for="BIT">BIT</label><br>
+
+            <input type="radio" id="BComp" th:field="*{studentCourse}" value="Bachelor of Computing">
+            <label for="BComp">BComp</label><br>
+
+            <input type="radio" id="Certificate" th:field="*{studentCourse}" value="System development certificate">
+            <label for="Certificate">Certificate in Systems development </label><br>
+        </div>
+        </div>
+        <div class="register-button">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+
+<!--    added this:-->
+    <div id="popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px; border-radius: 5px;">
+        <p id="popup-message"></p>
+    </div>
+</div>
+</body>
+</html>
